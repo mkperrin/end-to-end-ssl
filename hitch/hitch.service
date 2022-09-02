@@ -1,0 +1,24 @@
+[Unit]
+Description=Network proxy that terminates TLS/SSL connections
+After=syslog.target network.target
+
+[Service]
+
+#
+# If you want to make changes to this file, please copy it to 
+# /etc/systemd/system/hitch.service and make your changes there.
+# This will override the file kept at /lib/systemd/system/hitch.service
+#
+# Also see /etc/systemd/system/hitch.service.d/limit.conf
+#
+
+PIDFile=/run/hitch/hitch.pid
+RuntimeDirectory=hitch
+Type=forking
+PrivateTmp=true
+ExecStart=/usr/sbin/hitch --pidfile=/run/hitch/hitch.pid --config=/etc/hitch/hitch.conf
+ExecReload=/usr/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+
